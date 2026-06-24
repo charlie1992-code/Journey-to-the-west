@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="51" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="20">
+ <tileset firstgid="1" name="tileset1" tilewidth="16" tileheight="16" tilecount="50" columns="10">
+  <image source="image/tileset1.png" width="160" height="80"/>
+ </tileset>
+ <tileset firstgid="51" name="tileset2" tilewidth="16" tileheight="16" tilecount="110" columns="10">
+  <image source="image/tileset2.png" width="160" height="180"/>
+ </tileset>
+ <imagelayer id="2" name="背景" offsetx="0" offsety="0">
+  <image source="image/selectionbox.png" width="265" height="245"/>
+ </imagelayer>
+ <layer id="1" name="草地" width="51" height="25">
+  <data encoding="base64" compression="zlib">
+   eJzNldEKgDAIRXvvef//q9FDELLU9OgmSDDIedTrjiNv5yZO2B1nLPAqlhUueSgWT91mZ1mO930Ui/f+7Bztopdo/b1xKRZydqLsNAvVj4huaBZKJ1810epDsljzXK0jkqW6LxY7xTLEt9OfOwkjOAgdEebJp6M3FIuVr7aHiBpQLJ5dpTF49SDjyzPC/uSV1ZPGSbFQ2o7GIFkyOVLaoViIXLX9MPu3Wi/d+5h+X6ycM++gpya79SXL1tWXLidZVvsFwK0xsQ==
+  </data>
+ </layer>
+ <layer id="3" name="树" width="51" height="25">
+  <data encoding="base64" compression="zlib">
+   eJztk7kNACAMAxmGmv3HQxR0FKdIPDa5mkR+QinJinp4bicNvFnpjs7dzoDopnPRXQSa0+08CTSnnXmeQqGPAdGp0sfUqZI9QSX7RA/3f+LuTw2nPpy8qN+WUxdOXuhd/eg5SV6kA6qFBRc=
+  </data>
+ </layer>
+ <layer id="4" name="水" width="51" height="25">
+  <data encoding="base64" compression="zlib">
+   eJzt0jESABAQQ9HcRe3+19MoUKHhZ/JmdrRZWSniTnkd4NCal5afjv7f9Pxu0sefah8NL03VvIfE3cWNUw/rjdGQs++idxQcubO/uPThskfca7KwA6M=
+  </data>
+ </layer>
+ <layer id="5" name="房屋" width="51" height="25">
+  <data encoding="base64" compression="zlib">
+   eJzt17EKgDAMhOE+gzqqozqq7/9w3pjBDkITG/g/uLU9AoW0lFwGZVSmv4s0MCuLsgbf6zHDTdmVo+GZNba/xwxP5VLuhmfW2P6RM/Rg+0fO0EP2/gAA4Dv+GX3KviNb2XdM3kifeCN48wCbKQf5
+  </data>
+ </layer>
+ <layer id="6" name="湖泊" width="51" height="25">
+  <data encoding="base64" compression="zlib">
+   eJztk0kOgzAQBPlTQgiQQNiz/P8/qQuShTriOkRdUkmeHl9sj7PMGGOMMcYY88+c8Iw5XrAQWVqr/VG4Y4MtPrATWVqr/VFY8IkvfONHZGmt9kfhiiVWWONtk6l+1BnrccARJ5w3mepHnTF177/eaM2izpi693R9pBnbexd11qOeRfWj/pe9GVP9qP/lC6F+KXY=
+  </data>
+ </layer>
+ <layer id="7" name="道路" width="51" height="25">
+  <data encoding="base64" compression="zlib">
+   eJztlEEKgEAIRT26tayW1XkTYkgkhxGEUfDBB6dcuHh8gKIosoKUhbJOvsODjbJTjtmHOHBSLso9+xAHED7H+Mz/ye9R4Y5J39o7i4fcMelbe2fxECGHPyNk8WeESP4g/PcQn0f3rLM3Wg9pndTbs87eaD2kdVJvzzpHA6F6LCKRnbGCUI5FpByLSTn28gDnm1s2
+  </data>
+ </layer>
+ <objectgroup id="8" name="角色">
+  <object id="1" name="农民2" x="398.334" y="123.684">
+   <point/>
+  </object>
+  <object id="2" name="农民1" x="500.191" y="45.4719">
+   <point/>
+  </object>
+  <object id="3" name="守卫" x="793.031" y="96.4005">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="10" name="对象层 3"/>
+ <objectgroup id="9" name="障碍物">
+  <object id="4" x="283.745" y="10.9133" width="74.574" height="89.125"/>
+  <object id="5" x="282.835" y="86.3967" width="75.4834" height="80.0306"/>
+  <object id="6" x="270.103" y="149.148" width="58.2041" height="62.7513"/>
+  <object id="7" x="268.284" y="246.458" width="80.94" height="74.574"/>
+  <object id="8" x="315.575" y="294.658" width="107.314" height="98.2194"/>
+  <object id="9" x="328.307" y="262.828" width="120.046" height="46.3814"/>
+  <object id="10" x="351.953" y="10.0038" width="127.321" height="37.287"/>
+  <object id="11" x="542.935" y="15.4605" width="144.601" height="21.8265"/>
+  <object id="12" x="473.818" y="5.45663" width="156.423" height="25.4643"/>
+  <object id="13" x="701.177" y="5.45663" width="70.9362" height="63.6607"/>
+  <object id="14" x="762.11" y="16.3699" width="51.838" height="92.7627"/>
+  <object id="15" x="768.476" y="109.133" width="49.1097" height="77.3023"/>
+  <object id="16" x="767.566" y="271.922" width="51.838" height="108.223"/>
+  <object id="17" x="637.517" y="353.772" width="169.156" height="46.3814"/>
+  <object id="18" x="422.889" y="360.138" width="152.786" height="33.6492"/>
+  <object id="19" x="622.056" y="355.591" width="31.8304" height="47.2908"/>
+ </objectgroup>
+</map>
