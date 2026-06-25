@@ -1,17 +1,68 @@
-#放置场景公用的方法类
 import pygame
 from utils.tiled_render import TiledRenderer
+from pytmx import TiledTileLayer, TiledImageLayer, TiledObjectGroup
 
 class TiledScene:
-    """通用 Tiled 场景类"""
-
     def __init__(self, path: str):
-        """
-        加载并渲染地图
-        :param path: .tmx 文件路径
-        """
         self.tiled_path = path
         self.tiled = TiledRenderer(self.tiled_path)
-        # 创建与地图等大的 Surface 并渲染
+        self.tmx_data = self.tiled.tmx_data
         self.surface = pygame.Surface(self.tiled.pixel_size)
-        self.tiled.render_map(self.surface)
+        self._render_without_objects()
+        self.collision_rects = []
+        self.player_spawn = None
+        self._extract_objects()
+
+        if self.player_spawn:
+            print(f"✅ 玩家位置已提取: ({self.player_spawn[0]}, {self.player_spawn[1]})")
+        else:
+            print("⚠️ 未找到玩家位置对象")
+
+    def _render_without_objects(self):
+        surface = self.surface
+        if self.tmx_data.background_color:
+            surface.fill(pygame.Color(self.tmx_data.background_color))
+        for layer in self.tmx_data.visible_layers:
+            if isinstance(layer, TiledTileLayer):
+                self._render_tile_layer(surface, layer)
+            elif isinstance(layer, TiledImageLayer):
+                self._render_image_layer(surface, layer)
+
+    def _render_tile_layer(self, surface, layer):
+        tw = self.tmx_data.tilewidth
+        th = self.tmx_data.tileheight
+        for x, y, image in layer.tiles():
+            if image:
+                surface.blit(image, (x * tw, y * th))
+
+    def _render_image_layer(self, surface, layer):
+        if layer.image:
+            surface.blit(layer.image, (0, 0))
+
+    def _extract_objects(self):
+        for layer in self.tmx_data.visible_layers:
+            if isinstance(layer, TiledObjectGroup):
+                for obj in layer:
+                    # 识别玩家的条件（优先级从高到低）：
+                    # 1. 对象名称为 "sun" 或 "player"
+                    # 2. 对象有图像（GID对象）
+                    # 3. 对象有自定义属性 type="player"
+                    is_player = False
+                    if obj.name and obj.name.lower() in ("sun", "player"):
+                        is_player = True
+                    elif obj.image:
+                        is_player = True
+                    elif hasattr(obj, 'properties') and obj.properties.get('type') == 'player':
+                        is_player = True
+
+                    if is_player:
+                        self.player_spawn = (obj.x, obj.y)
+                        print(f"🎯 识别到玩家对象: 名称='{obj.name}', 坐标=({obj.x}, {obj.y})")
+                        # 注意：如果有多个，只取第一个
+                        return  # 找到后立即停止
+
+                    # 矩形对象（无图像、无points）作为碰撞体（可选）
+                    if not hasattr(obj, 'points') and not obj.image:
+                        self.collision_rects.append(
+                            pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+                        )

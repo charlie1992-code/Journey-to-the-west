@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="3780" tileheight="2395" infinite="0" nextlayerid="10" nextobjectid="181">
+<map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="3780" tileheight="2395" infinite="0" nextlayerid="12" nextobjectid="184">
  <tileset firstgid="1" name="village" tilewidth="3780" tileheight="2395" tilecount="1" columns="1">
   <image source="../img/village.jpg" width="3780" height="2395"/>
  </tileset>
@@ -167,6 +167,10 @@
   <object id="175" x="2100" y="632" width="128" height="64"/>
   <object id="176" x="2180" y="584" width="148" height="88"/>
   <object id="177" x="2428" y="2372" width="800" height="24"/>
+ </objectgroup>
+ <objectgroup id="11" name="对象层 7">
+  <object id="182" x="2792" y="1794" width="148" height="196"/>
+  <object id="183" x="2524" y="2202"/>
  </objectgroup>
  <objectgroup id="4" name="actor" locked="1">
   <object id="18" name="sun" x="2726.78" y="496.664">
