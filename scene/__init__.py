@@ -1,7 +1,9 @@
+# scene/__init__.py
 import pygame
 from utils.tiled_render import TiledRenderer
 from pytmx import TiledTileLayer, TiledImageLayer, TiledObjectGroup
 
+# ======================== TiledScene 类 ========================
 class TiledScene:
     def __init__(self, path: str):
         self.tiled_path = path
@@ -43,10 +45,6 @@ class TiledScene:
         for layer in self.tmx_data.visible_layers:
             if isinstance(layer, TiledObjectGroup):
                 for obj in layer:
-                    # 识别玩家的条件（优先级从高到低）：
-                    # 1. 对象名称为 "sun" 或 "player"
-                    # 2. 对象有图像（GID对象）
-                    # 3. 对象有自定义属性 type="player"
                     is_player = False
                     if obj.name and obj.name.lower() in ("sun", "player"):
                         is_player = True
@@ -58,11 +56,23 @@ class TiledScene:
                     if is_player:
                         self.player_spawn = (obj.x, obj.y)
                         print(f"🎯 识别到玩家对象: 名称='{obj.name}', 坐标=({obj.x}, {obj.y})")
-                        # 注意：如果有多个，只取第一个
-                        return  # 找到后立即停止
+                        return
 
-                    # 矩形对象（无图像、无points）作为碰撞体（可选）
                     if not hasattr(obj, 'points') and not obj.image:
                         self.collision_rects.append(
                             pygame.Rect(obj.x, obj.y, obj.width, obj.height)
                         )
+
+# ======================== 场景切换相关 ========================
+from .fade_scene import FadeScene, SceneStatus
+from .village import VillageScene
+from .temple_scene import TempleScene
+
+# ======================== 统一导出 ========================
+__all__ = [
+    'TiledScene',
+    'FadeScene',
+    'SceneStatus',
+    'VillageScene',
+    'TempleScene',
+]

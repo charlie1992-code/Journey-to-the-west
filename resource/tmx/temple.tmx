@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="1999" tileheight="1495" infinite="0" nextlayerid="9" nextobjectid="249">
+<map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="1999" tileheight="1495" infinite="0" nextlayerid="11" nextobjectid="256">
  <tileset firstgid="1" name="temple" tilewidth="1999" tileheight="1495" tilecount="1" columns="1">
   <image source="../img/temple.jpg" width="1999" height="1495"/>
  </tileset>
@@ -186,5 +186,11 @@
   <object id="239" x="616" y="934" width="38" height="50"/>
   <object id="240" x="584" y="970" width="36" height="56" visible="0"/>
   <object id="241" x="560" y="1012" width="22" height="30"/>
+ </objectgroup>
+ <objectgroup id="10" name="对象层 4">
+  <object id="252" x="826.667" y="432" width="81.3333" height="57.3333"/>
+  <object id="253" x="573.333" y="20" width="33.3333" height="93.3333"/>
+  <object id="254" x="370.667" y="140" width="125.333" height="72"/>
+  <object id="255" x="526.667" y="909.333" width="86.6667" height="86.6667"/>
  </objectgroup>
 </map>

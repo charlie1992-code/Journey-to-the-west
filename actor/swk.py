@@ -17,40 +17,84 @@ class SWK(pygame.sprite.Sprite):
         self.image = self.action.get_current_image()
         self.pos_x = 0
         self.pos_y = 0
-        self.rect = self.image.get_rect(topleft=(self.pos_x, self.pos_y))
 
-        # ===== 腰部小红点碰撞盒 =====
-        # 假设图片宽58，高83（可根据实际调整）
-        # 腰部大约在图片中心偏下位置，例如 (29, 55)
-        self.hitbox_offset_x = 29   # 水平居中
-        self.hitbox_offset_y = 55   # 垂直向下（腰部）
-        self.hitbox_width = 6       # 小尺寸
-        self.hitbox_height = 6
-        # =============================
+        # 碰撞盒（小红点）
+        self.offset_x = 34
+        self.offset_y = 180
+        self.collide_width = 30
+        self.collide_height = 10
 
-        self.hitbox = pygame.Rect(
-            self.pos_x + self.hitbox_offset_x,
-            self.pos_y + self.hitbox_offset_y,
-            self.hitbox_width,
-            self.hitbox_height
+        self.rect = pygame.Rect(
+            self.pos_x + self.offset_x,
+            self.pos_y + self.offset_y,
+            self.collide_width,
+            self.collide_height
         )
 
         self.speed = 5
         self.obstacle_group = None
+        self.dir = 0
 
     def set_pos(self, x, y):
         self.pos_x = x
         self.pos_y = y
-        self.rect.topleft = (x, y)
-        self._update_hitbox()
+        self._update_rect()
 
     def set_obstacles(self, group):
         self.obstacle_group = group
 
-    def _update_hitbox(self):
-        self.hitbox.x = self.pos_x + self.hitbox_offset_x
-        self.hitbox.y = self.pos_y + self.hitbox_offset_y
+    def _update_rect(self):
+        self.rect.x = self.pos_x + self.offset_x
+        self.rect.y = self.pos_y + self.offset_y
 
+    # ===== 新增 key_move 方法（兼容原调用） =====
+    def key_move(self, pressed_key, key_click, obstacle_group=None):
+        """
+        单次按键移动，返回 [dx, dy]
+        :param pressed_key: pygame 键码
+        :param key_click: 是否按下
+        :param obstacle_group: 障碍物组（可选）
+        :return: [dx, dy] 移动偏移量
+        """
+        if not key_click:
+            return [0, 0]
+
+        dx, dy = 0, 0
+        if pressed_key == K_UP:
+            self.dir = 2
+            dy = -10
+        elif pressed_key == K_DOWN:
+            self.dir = 0
+            dy = 10
+        elif pressed_key == K_LEFT:
+            self.dir = 1
+            dx = -10
+        elif pressed_key == K_RIGHT:
+            self.dir = 3
+            dx = 10
+        else:
+            return [0, 0]
+
+        # 碰撞检测（如果传入了障碍物组）
+        if obstacle_group is not None:
+            test_rect = self.rect.copy()
+            test_rect.x += dx
+            test_rect.y += dy
+            for obs in obstacle_group:
+                if test_rect.colliderect(obs.rect):
+                    return [0, 0]   # 碰撞则不动
+
+        self.pos_x += dx
+        self.pos_y += dy
+        self._update_rect()
+
+        self.action.set_direction(self.dir)
+        self.action.update()
+        self.image = self.action.get_current_image()
+
+        return [dx, dy]
+
+    # ===== 原有 update 方法（长按移动，完全保留） =====
     def update(self):
         if self.obstacle_group is None:
             return
@@ -67,37 +111,32 @@ class SWK(pygame.sprite.Sprite):
             dx = self.speed
 
         if dx != 0 or dy != 0:
-            # 水平检测
             if dx != 0:
                 new_x = self.pos_x + dx
-                test_hitbox = self.hitbox.copy()
-                test_hitbox.x = new_x + self.hitbox_offset_x
+                test_rect = self.rect.copy()
+                test_rect.x = new_x + self.offset_x
                 collide = False
                 for obs in self.obstacle_group:
-                    if test_hitbox.colliderect(obs.rect):
+                    if test_rect.colliderect(obs.rect):
                         collide = True
                         break
                 if not collide:
                     self.pos_x = new_x
-                    self.rect.x = self.pos_x
-                    self._update_hitbox()
+                    self._update_rect()
 
-            # 垂直检测
             if dy != 0:
                 new_y = self.pos_y + dy
-                test_hitbox = self.hitbox.copy()
-                test_hitbox.y = new_y + self.hitbox_offset_y
+                test_rect = self.rect.copy()
+                test_rect.y = new_y + self.offset_y
                 collide = False
                 for obs in self.obstacle_group:
-                    if test_hitbox.colliderect(obs.rect):
+                    if test_rect.colliderect(obs.rect):
                         collide = True
                         break
                 if not collide:
                     self.pos_y = new_y
-                    self.rect.y = self.pos_y
-                    self._update_hitbox()
+                    self._update_rect()
 
-            # 方向与动画
             if dx != 0 or dy != 0:
                 if dy < 0:
                     dir_index = 2
@@ -119,10 +158,8 @@ class SWK(pygame.sprite.Sprite):
         screen_y = self.pos_y - win_posy
         surface.blit(self.image, (screen_x, screen_y))
 
-        # 调试：绘制红色小点（碰撞盒）
-        debug_rect = self.hitbox.copy()
+        # 调试碰撞盒（保留，您可自行注释）
+        debug_rect = self.rect.copy()
         debug_rect.x -= win_posx
         debug_rect.y -= win_posy
-        pygame.draw.rect(surface, (255, 0, 0), debug_rect, 1)  # 红色边框
-        # 填充红色半透明（可选）
-        # pygame.draw.rect(surface, (255, 0, 0, 128), debug_rect)
+        pygame.draw.rect(surface, (255, 0, 0), debug_rect, 1)
